@@ -1,11 +1,13 @@
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.chrome.ChromeOptions;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 import java.util.List;
 
@@ -17,21 +19,28 @@ public class CartTest {
 
     @BeforeAll
     public static void setUpAll() {
-        System.setProperty("webdriver.chrome.driver", "./driver/win/chromedriver.exe");
+//        System.setProperty("webdriver.chrome.driver", "./webdriver/win/chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
     }
 
     @BeforeEach
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
+        options.addArguments("start-maximized");
+        options.addArguments("disable-infobars");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--no-sandbox");
         options.addArguments("--headless");
+        options.addArguments("--disable-extensions");
+        options.addArguments("--no-sandbox");
         driver = new ChromeDriver(options);
     }
 
-    public void tearDown() {
-        driver.quit();
-        driver = null;
+    @AfterEach
+    void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
     @Test
