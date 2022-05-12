@@ -1,13 +1,10 @@
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.junit.jupiter.api.Test;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.List;
@@ -16,23 +13,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CartTest {
 
-    WebDriver driver;
+    private WebDriver driver;
 
     @BeforeAll
-    static void setupClass() {
-        WebDriverManager.chromedriver().setup();
+    public static void setUpAll() {
+        System.setProperty("webdriver.chrome.driver", "./driver/win/chromedriver.exe");
     }
 
     @BeforeEach
-    void setupTest() {
-        driver = new ChromeDriver();
+    public void setUp() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--headless");
+        driver = new ChromeDriver(options);
     }
 
-    @AfterEach
-    void teardown() {
+    public void tearDown() {
         driver.quit();
+        driver = null;
     }
-
 
     @Test
     public void shouldOrderForm() {
