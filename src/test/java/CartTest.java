@@ -4,12 +4,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,7 +17,6 @@ public class CartTest {
 
     @BeforeAll
     public static void setUpAll() {
-//        System.setProperty("webdriver.chrome.driver", "./webdriver/win/chromedriver.exe");
         WebDriverManager.chromedriver().setup();
     }
 
@@ -48,12 +45,9 @@ public class CartTest {
         driver.get("http://localhost:9999");
         driver.findElement(By.cssSelector("[type='text']")).sendKeys("Гончиков Болот");
         driver.findElement(By.cssSelector("[type='tel']")).sendKeys("+79994996468");
-//        List<WebElement> textFileds = driver.findElements(By.className("input__control"));
-//        textFileds.get(0).sendKeys("Болот");
-//        textFileds.get(1).sendKeys("+79994996468");
         driver.findElement(By.cssSelector(".checkbox__box")).click();
         driver.findElement(By.cssSelector("button")).click();
-        String actual = driver.findElement(By.cssSelector(".paragraph_theme_alfa-on-white")).getText().trim();
+        String actual = driver.findElement(By.cssSelector("[data-test-id=order-success]")).getText().trim();
         String expected = "Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.";
         assertEquals(expected, actual);
     }
